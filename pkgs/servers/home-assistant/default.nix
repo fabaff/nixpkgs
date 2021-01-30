@@ -24,6 +24,11 @@ let
     (mkOverride "astral" "1.10.1"
       "d2a67243c4503131c856cafb1b1276de52a86e5b8a1d507b7e08bee51cb67bf1")
 
+    # Pinned, because v1.5.0 broke the google_translate integration
+    # https://github.com/home-assistant/core/pull/38428
+    (mkOverride "yarl" "1.4.2"
+      "0jzpgrdl6415zzl8js7095q8ks14555lhgxah76mimffkr39rkaq")
+
     # hass-frontend does not exist in python3.pkgs
     (self: super: {
       hass-frontend = self.callPackage ./frontend.nix { };
@@ -57,7 +62,7 @@ let
   extraBuildInputs = extraPackages py.pkgs;
 
   # Don't forget to run parse-requirements.py after updating
-  hassVersion = "2021.1.5";
+  hassVersion = "2021.1.1";
 
 in with py.pkgs; buildPythonApplication rec {
   pname = "homeassistant";
@@ -76,7 +81,7 @@ in with py.pkgs; buildPythonApplication rec {
     owner = "home-assistant";
     repo = "core";
     rev = version;
-    sha256 = "sha256-xi5rHZlhwgEHll3TFlRu7D963tdcQNMmWcoXVjEFLXo=";
+    sha256 = "1linjv1hryqsh8y1rql1i95b4lz4h8siw847gm78m1z8niacz7ss";
   };
 
   # leave this in, so users don't have to constantly update their downstream patch handling
@@ -179,8 +184,8 @@ in with py.pkgs; buildPythonApplication rec {
     # keyring.errors.NoKeyringError: No recommended backend was available.
     "test_secrets_from_unrelated_fails"
     "test_secrets_credstash"
-    # RuntimeError: Event loop is closed
-    "test_remove_older_logs"
+    # Exclude SSDP test due to an error with the loop
+    "test_scan_match_st"
   ];
 
   preCheck = ''
