@@ -1,14 +1,27 @@
-{ lib, buildPythonPackage, fetchPypi, isPy3k,
-  six, txaio, twisted, zope_interface, cffi, trollius, futures,
-  mock, pytest, cryptography, pynacl
+{ lib
+, buildPythonPackage
+, cffi
+, cryptography
+, fetchPypi
+, futures
+, isPy3k
+, mock
+, pynacl
+, pytest
+, six
+, trollius
+, twisted
+, txaio
+, zope_interface
 }:
+
 buildPythonPackage rec {
   pname = "autobahn";
-  version = "20.12.3";
+  version = "21.1.1";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "15b8zm7jalwisfwc08szxy3bh2bnn0hd41dbsnswi0lqwbh962j1";
+    sha256 = "sha256-k9+PydGCHJ2r/5/tUhgamtbupemYnVMQLDkWB9fBZm4=";
   };
 
   propagatedBuildInputs = [ six txaio twisted zope_interface cffi cryptography pynacl ] ++
@@ -24,11 +37,12 @@ buildPythonPackage rec {
   # Tests do no seem to be compatible yet with pytest 5.1
   # https://github.com/crossbario/autobahn-python/issues/1235
   doCheck = false;
+  pythonImportsCheck = [ "autobahn" ];
 
   meta = with lib; {
-    description = "WebSocket and WAMP in Python for Twisted and asyncio.";
-    homepage    = "https://crossbar.io/autobahn";
-    license     = licenses.mit;
+    description = "WebSocket and WAMP in Python for Twisted and asyncio";
+    homepage = "https://crossbar.io/autobahn";
+    license = licenses.mit;
     maintainers = with maintainers; [ nand0p ];
   };
 }
