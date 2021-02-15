@@ -6000,6 +6000,8 @@ in
 
   libzmf = callPackage ../development/libraries/libzmf {};
 
+  libreddit = callPackage ../servers/libreddit { };
+
   libreswan = callPackage ../tools/networking/libreswan { };
 
   librest = callPackage ../development/libraries/librest { };
