@@ -7,7 +7,8 @@
 , isPy3k
 , mock
 , pynacl
-, pytest
+, pytest-asyncio
+, pytestCheckHook
 , six
 , trollius
 , twisted
@@ -24,19 +25,37 @@ buildPythonPackage rec {
     sha256 = "sha256-k9+PydGCHJ2r/5/tUhgamtbupemYnVMQLDkWB9fBZm4=";
   };
 
-  propagatedBuildInputs = [ six txaio twisted zope_interface cffi cryptography pynacl ] ++
-    (lib.optionals (!isPy3k) [ trollius futures ]);
+  propagatedBuildInputs = [
+    six
+    txaio
+    twisted
+    zope_interface
+    cffi
+    cryptography
+    pynacl
+  ] ++ (lib.optionals (!isPy3k) [
+    trollius
+    futures
+  ]);
 
-  checkInputs = [ mock pytest ];
-  checkPhase = ''
-    runHook preCheck
-    USE_TWISTED=true py.test $out
-    runHook postCheck
+  checkInputs = [
+    mock
+    pytest-asyncio
+    pytestCheckHook
+  ];
+
+  preCheck = ''
+    # Run asyncio tests (requires twisted)
+    export USE_ASYNCIO=1
   '';
 
-  # Tests do no seem to be compatible yet with pytest 5.1
-  # https://github.com/crossbario/autobahn-python/issues/1235
-  doCheck = false;
+  pytestFlagsArray = [ "--pyargs autobahn" ];
+
+  disabledTests = [
+    "TestSerializer"
+    "test_basic"
+  ];
+
   pythonImportsCheck = [ "autobahn" ];
 
   meta = with lib; {
