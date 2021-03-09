@@ -2,11 +2,11 @@
 
 buildPythonPackage rec {
   pname = "nose-timer";
-  version = "1.0.0";
+  version = "1.0.1";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "09hwjwbczi06bfqgiylb2yxs5h88jdl26zi1fdqxdzvamrkksf2c";
+    sha256 = "sha256-j3DRA7f/2RIqWJ3g350Den2WdRm/beEiYh0hhmCbnjo=";
   };
 
   propagatedBuildInputs = [ nose ];
