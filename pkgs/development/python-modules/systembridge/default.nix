@@ -3,6 +3,7 @@
 , websockets
 , buildPythonPackage
 , fetchFromGitHub
+, websockets
 }:
 
 buildPythonPackage rec {
