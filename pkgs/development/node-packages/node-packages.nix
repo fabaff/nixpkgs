@@ -47948,12 +47948,12 @@ let
         sha1 = "15931d3cd967ade52206f523aa7331aef7d43af7";
       };
     };
-    "pyright-1.1.151" = {
+    "pyright-1.1.153" = {
       name = "pyright";
       packageName = "pyright";
-      version = "1.1.151";
+      version = "1.1.153";
       src = fetchurl {
-        url = "https://registry.npmjs.org/pyright/-/pyright-1.1.151.tgz";
+        url = "https://registry.npmjs.org/pyright/-/pyright-1.1.153.tgz";
         sha512 = "R/Zr6VqXghuFLm7y3a8HoCrA+mfy+Zp+mp6P8gFZeJO9Rl1kQLJhfc/y4QKSQHZWxXOBGo+AFDi/rWLZfNBEgQ==";
       };
     };
@@ -71913,7 +71913,7 @@ in
       sha512 = "+dWSYM9AfBsYeOclQNmuHcw9aKWwL6XICmPm64N9peWE+oXqMOAShaH5xO+JV+r88R0wTN/LJaEwGHlkxJD2XA==";
     };
     dependencies = [
-      sources."pyright-1.1.151"
+      sources."pyright-1.1.153"
     ];
     buildInputs = globalBuildInputs;
     meta = {
@@ -101922,9 +101922,9 @@ in
   pyright = nodeEnv.buildNodePackage {
     name = "pyright";
     packageName = "pyright";
-    version = "1.1.151";
+    version = "1.1.153";
     src = fetchurl {
-      url = "https://registry.npmjs.org/pyright/-/pyright-1.1.151.tgz";
+      url = "https://registry.npmjs.org/pyright/-/pyright-1.1.153.tgz";
       sha512 = "R/Zr6VqXghuFLm7y3a8HoCrA+mfy+Zp+mp6P8gFZeJO9Rl1kQLJhfc/y4QKSQHZWxXOBGo+AFDi/rWLZfNBEgQ==";
     };
     buildInputs = globalBuildInputs;
