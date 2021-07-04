@@ -1,6 +1,6 @@
 { lib, stdenv, fetchFromGitHub, python3 }:
 
-let version = "0.11.1"; in
+let version = "0.11.2"; in
 
 python3.pkgs.buildPythonApplication {
   pname = "fail2ban";
@@ -10,7 +10,7 @@ python3.pkgs.buildPythonApplication {
     owner  = "fail2ban";
     repo   = "fail2ban";
     rev    = version;
-    sha256 = "0kqvkxpb72y3kgmxf6g36w67499c6gcd2a9yyblagwx12y05f1sh";
+    sha256 = "00d9q8m284q2wy6q462nipzszplfbvrs9fhgn0y3imwsc24kv1db";
   };
 
   pythonPath = with python3.pkgs;
