@@ -621,7 +621,8 @@ in with py.pkgs; buildPythonApplication rec {
     "sql"
     "squeezebox"
     "srp_energy"
-    "ssdp"
+    # disable ssdp doesn't work in our sandbox properly
+    # "ssdp"
     "starline"
     "startca"
     "statistics"
