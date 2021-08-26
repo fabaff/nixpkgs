@@ -11,11 +11,11 @@
 
 buildPythonPackage rec {
   pname = "towncrier";
-  version = "19.9.0";
+  version = "21.3.0";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "19916889879353a8863f3de8cb1ef19b305a0b5cfd9d36159d76ca2fef08e9aa";
+    sha256 = "6eed0bc924d72c98c000cb8a64de3bd566e5cb0d11032b73fcccf8a8f956ddfe";
   };
 
   propagatedBuildInputs = [
