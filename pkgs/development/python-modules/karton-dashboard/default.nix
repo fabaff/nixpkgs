@@ -9,13 +9,13 @@
 
 buildPythonPackage rec {
   pname = "karton-dashboard";
-  version = "1.2.0";
+  version = "1.2.1";
 
   src = fetchFromGitHub {
     owner = "CERT-Polska";
     repo = pname;
     rev = "v${version}";
-    sha256 = "0qygv9lkd1jad5b4l0zz6hsi7m8q0fmpwaa6hpp7p9x6ql7gnyl8";
+    sha256 = "0hh21s5r8jnpnm09hskq3g37fj8r24fsvd97x5956kmfgjj2sp0b";
   };
 
   propagatedBuildInputs = [
