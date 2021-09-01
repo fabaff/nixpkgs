@@ -9,7 +9,7 @@
 
 buildPythonPackage rec {
   pname = "frozendict";
-  version = "2.0.5";
+  version = "2.0.5";  # 2.0.6 breaks canonicaljson
   format = "setuptools";
 
   disabled = !isPy3k;
@@ -27,10 +27,14 @@ buildPythonPackage rec {
     pytestCheckHook
   ];
 
+  preCheck = ''
+    rm -r frozendict
+    export PYTHONPATH=$out/${python.sitePackages}:$PYTHONPATH
+  '';
+
   disabledTests = [
-    # >   ???
-    # E   AssertionError
-    "test_c_extension"
+    # TypeError: unsupported operand type(s) for |=: 'frozendict.frozendict' and 'dict'
+    "test_union"
   ];
 
   disabledTestPaths = [
