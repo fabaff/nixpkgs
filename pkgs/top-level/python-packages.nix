@@ -15,17 +15,17 @@
 with lib;
 
 self:
-
 let
   inherit (self) callPackage;
   inherit (python.passthru) isPy27 isPy35 isPy36 isPy37 isPy38 isPy39 isPy3k isPyPy pythonAtLeast pythonOlder;
 
   namePrefix = python.libPrefix + "-";
 
-  bootstrapped-pip = if isPy3k then
-    callPackage ../development/python-modules/bootstrapped-pip { }
-  else
-    callPackage ../development/python-modules/bootstrapped-pip/2.nix { };
+  bootstrapped-pip =
+    if isPy3k then
+      callPackage ../development/python-modules/bootstrapped-pip { }
+    else
+      callPackage ../development/python-modules/bootstrapped-pip/2.nix { };
 
   # Derivations built with `buildPythonPackage` can already be overriden with `override`, `overrideAttrs`, and `overrideDerivation`.
   # This function introduces `overridePythonAttrs` and it overrides the call to `buildPythonPackage`.
@@ -34,37 +34,40 @@ let
       ff = f origArgs;
       overrideWith = newArgs: origArgs // (if pkgs.lib.isFunction newArgs then newArgs origArgs else newArgs);
     in
-      if builtins.isAttrs ff then (ff // {
+    if builtins.isAttrs ff then
+      (ff // {
         overridePythonAttrs = newArgs: makeOverridablePythonPackage f (overrideWith newArgs);
       })
-      else if builtins.isFunction ff then {
-        overridePythonAttrs = newArgs: makeOverridablePythonPackage f (overrideWith newArgs);
-        __functor = self: ff;
-      }
-      else ff;
+    else if builtins.isFunction ff then {
+      overridePythonAttrs = newArgs: makeOverridablePythonPackage f (overrideWith newArgs);
+      __functor = self: ff;
+    }
+    else ff;
 
-  buildPythonPackage = makeOverridablePythonPackage ( makeOverridable (callPackage ../development/interpreters/python/mk-python-derivation.nix {
-    inherit namePrefix;     # We want Python libraries to be named like e.g. "python3.6-${name}"
-    inherit toPythonModule; # Libraries provide modules
+  buildPythonPackage = makeOverridablePythonPackage (makeOverridable (callPackage ../development/interpreters/python/mk-python-derivation.nix {
+    inherit namePrefix;# We want Python libraries to be named like e.g. "python3.6-${name}"
+    inherit toPythonModule;# Libraries provide modules
   }));
 
-  buildPythonApplication = makeOverridablePythonPackage ( makeOverridable (callPackage ../development/interpreters/python/mk-python-derivation.nix {
-    namePrefix = "";        # Python applications should not have any prefix
-    toPythonModule = x: x;  # Application does not provide modules.
+  buildPythonApplication = makeOverridablePythonPackage (makeOverridable (callPackage ../development/interpreters/python/mk-python-derivation.nix {
+    namePrefix = ""; # Python applications should not have any prefix
+    toPythonModule = x: x; # Application does not provide modules.
   }));
 
   # See build-setupcfg/default.nix for documentation.
   buildSetupcfg = import ../build-support/build-setupcfg self;
 
-  fetchPypi = callPackage ../development/interpreters/python/fetchpypi.nix {};
+  fetchPypi = callPackage ../development/interpreters/python/fetchpypi.nix { };
 
   # Check whether a derivation provides a Python module.
   hasPythonModule = drv: drv?pythonModule && drv.pythonModule == python;
 
   # Get list of required Python modules given a list of derivations.
-  requiredPythonModules = drvs: let
-    modules = filter hasPythonModule drvs;
-  in unique ([python] ++ modules ++ concatLists (catAttrs "requiredPythonModules" modules));
+  requiredPythonModules = drvs:
+    let
+      modules = filter hasPythonModule drvs;
+    in
+    unique ([ python ] ++ modules ++ concatLists (catAttrs "requiredPythonModules" modules));
 
   # Create a PYTHONPATH from a list of derivations. This function recurses into the items to find derivations
   # providing Python modules.
@@ -75,9 +78,9 @@ let
 
   # Convert derivation to a Python module.
   toPythonModule = drv:
-    drv.overrideAttrs( oldAttrs: {
+    drv.overrideAttrs (oldAttrs: {
       # Use passthru in order to prevent rebuilds when possible.
-      passthru = (oldAttrs.passthru or {})// {
+      passthru = (oldAttrs.passthru or { }) // {
         pythonModule = python;
         pythonPath = [ ]; # Deprecated, for compatibility.
         requiredPythonModules = requiredPythonModules drv.propagatedBuildInputs;
@@ -86,8 +89,8 @@ let
 
   # Convert a Python library to an application.
   toPythonApplication = drv:
-    drv.overrideAttrs( oldAttrs: {
-      passthru = (oldAttrs.passthru or {}) // {
+    drv.overrideAttrs (oldAttrs: {
+      passthru = (oldAttrs.passthru or { }) // {
         # Remove Python prefix from name so we have a "normal" name.
         # While the prefix shows up in the store path, it won't be
         # used by `nix-env`.
@@ -100,7 +103,8 @@ let
 
   disabledIf = x: drv: if x then disabled drv else drv;
 
-in {
+in
+{
 
   inherit pkgs stdenv;
 
@@ -137,10 +141,11 @@ in {
   # it should not override the version of pytest that is used for say
   # Python 2. This is an ugly hack that is needed now because the hook
   # propagates the package.
-  pytestCheckHook_6_1 = if isPy3k then
-    self.pytestCheckHook.override { pytest = self.pytest_6_1; }
-  else
-    self.pytestCheckHook;
+  pytestCheckHook_6_1 =
+    if isPy3k then
+      self.pytestCheckHook.override { pytest = self.pytest_6_1; }
+    else
+      self.pytestCheckHook;
 
   # helpers
 
@@ -1475,7 +1480,7 @@ in {
 
   class-registry = callPackage ../development/python-modules/class-registry { };
 
-  claripy =  callPackage ../development/python-modules/claripy { };
+  claripy = callPackage ../development/python-modules/claripy { };
 
   cld2-cffi = callPackage ../development/python-modules/cld2-cffi { };
 
@@ -1517,11 +1522,11 @@ in {
 
   click-threading = callPackage ../development/python-modules/click-threading { };
 
-  clickhouse-cityhash = callPackage ../development/python-modules/clickhouse-cityhash {};
+  clickhouse-cityhash = callPackage ../development/python-modules/clickhouse-cityhash { };
 
   clickhouse-cli = callPackage ../development/python-modules/clickhouse-cli { };
 
-  clickhouse-driver = callPackage ../development/python-modules/clickhouse-driver {};
+  clickhouse-driver = callPackage ../development/python-modules/clickhouse-driver { };
 
   cliff = callPackage ../development/python-modules/cliff { };
 
@@ -1731,7 +1736,7 @@ in {
 
   crytic-compile = callPackage ../development/python-modules/crytic-compile { };
 
-  csrmesh  = callPackage ../development/python-modules/csrmesh { };
+  csrmesh = callPackage ../development/python-modules/csrmesh { };
 
   csscompressor = callPackage ../development/python-modules/csscompressor { };
 
@@ -2368,7 +2373,7 @@ in {
 
   env-canada = callPackage ../development/python-modules/env-canada { };
 
-  environmental-override = callPackage ../development/python-modules/environmental-override {};
+  environmental-override = callPackage ../development/python-modules/environmental-override { };
 
   envisage = callPackage ../development/python-modules/envisage { };
 
@@ -3164,7 +3169,7 @@ in {
 
   graphene = callPackage ../development/python-modules/graphene { };
 
-  graphqlclient= callPackage ../development/python-modules/graphqlclient { };
+  graphqlclient = callPackage ../development/python-modules/graphqlclient { };
 
   graphql-core = callPackage ../development/python-modules/graphql-core { };
 
@@ -3246,20 +3251,22 @@ in {
 
   guppy3 = callPackage ../development/python-modules/guppy3 { };
 
-  gurobipy = if stdenv.hostPlatform.system == "x86_64-darwin" then
-    callPackage ../development/python-modules/gurobipy/darwin.nix {
-      inherit (pkgs.darwin) cctools insert_dylib;
-    }
-  else if stdenv.hostPlatform.system == "x86_64-linux" then
-    callPackage ../development/python-modules/gurobipy/linux.nix { }
-  else
-    throw "gurobipy not yet supported on ${stdenv.hostPlatform.system}";
+  gurobipy =
+    if stdenv.hostPlatform.system == "x86_64-darwin" then
+      callPackage ../development/python-modules/gurobipy/darwin.nix
+        {
+          inherit (pkgs.darwin) cctools insert_dylib;
+        }
+    else if stdenv.hostPlatform.system == "x86_64-linux" then
+      callPackage ../development/python-modules/gurobipy/linux.nix { }
+    else
+      throw "gurobipy not yet supported on ${stdenv.hostPlatform.system}";
 
   guzzle_sphinx_theme = callPackage ../development/python-modules/guzzle_sphinx_theme { };
 
-  gvm-tools = callPackage ../development/python-modules/gvm-tools {};
+  gvm-tools = callPackage ../development/python-modules/gvm-tools { };
 
-  gviz-api = callPackage ../development/python-modules/gviz-api {};
+  gviz-api = callPackage ../development/python-modules/gviz-api { };
 
   gym = callPackage ../development/python-modules/gym { };
 
@@ -3293,7 +3300,7 @@ in {
 
   ha-ffmpeg = callPackage ../development/python-modules/ha-ffmpeg { };
 
-  ha-philipsjs = callPackage ../development/python-modules/ha-philipsjs{ };
+  ha-philipsjs = callPackage ../development/python-modules/ha-philipsjs { };
 
   halo = callPackage ../development/python-modules/halo { };
 
@@ -3677,10 +3684,11 @@ in {
 
   ipython_genutils = callPackage ../development/python-modules/ipython_genutils { };
 
-  ipython = if isPy36 then
-    callPackage ../development/python-modules/ipython/7.16.nix { }
-  else
-    callPackage ../development/python-modules/ipython { };
+  ipython =
+    if isPy36 then
+      callPackage ../development/python-modules/ipython/7.16.nix { }
+    else
+      callPackage ../development/python-modules/ipython { };
 
   ipyvue = callPackage ../development/python-modules/ipyvue { };
 
@@ -4403,7 +4411,7 @@ in {
 
   Mako = callPackage ../development/python-modules/Mako { };
 
-  malduck= callPackage ../development/python-modules/malduck { };
+  malduck = callPackage ../development/python-modules/malduck { };
 
   managesieve = callPackage ../development/python-modules/managesieve { };
 
@@ -4538,7 +4546,8 @@ in {
   meshtastic = callPackage ../development/python-modules/meshtastic { };
 
   meson = toPythonModule ((pkgs.meson.override { python3 = python; }).overrideAttrs
-    (oldAttrs: { # We do not want the setup hook in Python packages because the build is performed differently.
+    (oldAttrs: {
+      # We do not want the setup hook in Python packages because the build is performed differently.
       setupHook = null;
     }));
 
@@ -4590,7 +4599,7 @@ in {
     mistune
     mistune_0_8
     mistune_2_0
-  ;
+    ;
 
   mitmproxy = callPackage ../development/python-modules/mitmproxy { };
 
@@ -5084,7 +5093,7 @@ in {
   openapi-spec-validator = callPackage ../development/python-modules/openapi-spec-validator { };
 
   openbabel-bindings = callPackage ../development/python-modules/openbabel-bindings {
-      openbabel = (callPackage ../development/libraries/openbabel { python = self.python; });
+    openbabel = (callPackage ../development/libraries/openbabel { python = self.python; });
   };
 
   opencv3 = toPythonModule (pkgs.opencv3.override {
@@ -5450,8 +5459,8 @@ in {
   };
 
   pillow-simd = callPackage ../development/python-modules/pillow-simd {
-      inherit (pkgs) freetype libjpeg zlib libtiff libwebp tcl lcms2 tk;
-      inherit (pkgs.xorg) libX11;
+    inherit (pkgs) freetype libjpeg zlib libtiff libwebp tcl lcms2 tk;
+    inherit (pkgs.xorg) libX11;
   };
 
   pims = callPackage ../development/python-modules/pims { };
@@ -6075,7 +6084,7 @@ in {
 
   pydrive = callPackage ../development/python-modules/pydrive { };
 
-  pydroid-ipcam = callPackage ../development/python-modules/pydroid-ipcam  { };
+  pydroid-ipcam = callPackage ../development/python-modules/pydroid-ipcam { };
 
   pydsdl = callPackage ../development/python-modules/pydsdl { };
 
@@ -6584,7 +6593,7 @@ in {
 
   pypiserver = callPackage ../development/python-modules/pypiserver { };
 
-  pyplaato  = callPackage ../development/python-modules/pyplaato { };
+  pyplaato = callPackage ../development/python-modules/pyplaato { };
 
   pyplatec = callPackage ../development/python-modules/pyplatec { };
 
@@ -6909,7 +6918,8 @@ in {
   pytest = self.pytest_6;
 
   pytest_4 = callPackage
-    ../development/python-modules/pytest/4.nix {
+    ../development/python-modules/pytest/4.nix
+    {
       # hypothesis tests require pytest that causes dependency cycle
       hypothesis = self.hypothesis.override {
         doCheck = false;
@@ -6917,7 +6927,8 @@ in {
     };
 
   pytest_5 = callPackage
-    ../development/python-modules/pytest/5.nix {
+    ../development/python-modules/pytest/5.nix
+    {
       # hypothesis tests require pytest that causes dependency cycle
       hypothesis = self.hypothesis.override {
         doCheck = false;
@@ -6963,7 +6974,7 @@ in {
   pytest-cache = self.pytestcache; # added 2021-01-04
   pytestcache = callPackage ../development/python-modules/pytestcache { };
 
-  pytest-cases = callPackage ../development/python-modules/pytest-cases{ };
+  pytest-cases = callPackage ../development/python-modules/pytest-cases { };
 
   pytest-catchlog = callPackage ../development/python-modules/pytest-catchlog { };
 
@@ -7249,18 +7260,20 @@ in {
 
   python_magic = callPackage ../development/python-modules/python-magic { };
 
-  python-mapnik = let
-    boost = pkgs.boost.override {
-      enablePython = true;
-      inherit python;
+  python-mapnik =
+    let
+      boost = pkgs.boost.override {
+        enablePython = true;
+        inherit python;
+      };
+    in
+    callPackage ../development/python-modules/python-mapnik {
+      inherit (pkgs) pkg-config cairo harfbuzz icu libjpeg libpng libtiff libwebp proj zlib;
+      inherit boost;
+      mapnik = pkgs.mapnik.override {
+        inherit python boost;
+      };
     };
-  in callPackage ../development/python-modules/python-mapnik {
-    inherit (pkgs) pkg-config cairo harfbuzz icu libjpeg libpng libtiff libwebp proj zlib;
-    inherit boost;
-    mapnik = pkgs.mapnik.override {
-      inherit python boost;
-    };
-  };
 
   python-markdown-math = callPackage ../development/python-modules/python-markdown-math { };
 
@@ -7279,7 +7292,8 @@ in {
   python-nest = callPackage ../development/python-modules/python-nest { };
 
   pythonnet = callPackage
-    ../development/python-modules/pythonnet {
+    ../development/python-modules/pythonnet
+    {
       # Using `mono > 5`, tests are failing..
       mono = pkgs.mono5;
     };
@@ -7450,7 +7464,9 @@ in {
   pyu2f = callPackage ../development/python-modules/pyu2f { };
 
   pyuavcan = callPackage
-    ../development/python-modules/pyuavcan { # this version pinpoint to anold version is necessary due to a regression
+    ../development/python-modules/pyuavcan
+    {
+      # this version pinpoint to anold version is necessary due to a regression
       nunavut = self.nunavut.overridePythonAttrs (old: rec {
         version = "0.2.3";
         src = old.src.override {
@@ -7633,7 +7649,7 @@ in {
 
   queuelib = callPackage ../development/python-modules/queuelib { };
 
-  qmk-dotty-dict = callPackage ../development/python-modules/qmk-dotty-dict {};
+  qmk-dotty-dict = callPackage ../development/python-modules/qmk-dotty-dict { };
 
   r2pipe = callPackage ../development/python-modules/r2pipe { };
 
@@ -8745,7 +8761,7 @@ in {
 
   tensorboard-plugin-profile = callPackage ../development/python-modules/tensorboard-plugin-profile { };
 
-  tensorboard-plugin-wit = callPackage ../development/python-modules/tensorboard-plugin-wit {};
+  tensorboard-plugin-wit = callPackage ../development/python-modules/tensorboard-plugin-wit { };
 
   tensorboardx = callPackage ../development/python-modules/tensorboardx { };
 
@@ -8878,9 +8894,11 @@ in {
 
   thumborPexif = callPackage ../development/python-modules/thumborpexif { };
 
-  tkinter = let
-    py = python.override { x11Support=true; };
-  in callPackage ../development/python-modules/tkinter { py = py; };
+  tkinter =
+    let
+      py = python.override { x11Support = true; };
+    in
+    callPackage ../development/python-modules/tkinter { py = py; };
 
   tidylib = callPackage ../development/python-modules/pytidylib { };
 
@@ -9304,6 +9322,8 @@ in {
 
   venusian = callPackage ../development/python-modules/venusian { };
 
+  velbus-aio = callPackage ../development/python-modules/velbus-aio { };
+
   verboselogs = callPackage ../development/python-modules/verboselogs { };
 
   versioneer = callPackage ../development/python-modules/versioneer { };
@@ -9527,10 +9547,11 @@ in {
 
   wsnsimpy = callPackage ../development/python-modules/wsnsimpy { };
 
-  wsproto = if (pythonAtLeast "3.6") then
-    callPackage ../development/python-modules/wsproto { }
-  else
-    callPackage ../development/python-modules/wsproto/0.14.nix { };
+  wsproto =
+    if (pythonAtLeast "3.6") then
+      callPackage ../development/python-modules/wsproto { }
+    else
+      callPackage ../development/python-modules/wsproto/0.14.nix { };
 
   wtforms = callPackage ../development/python-modules/wtforms { };
 
