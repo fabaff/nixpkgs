@@ -1,18 +1,48 @@
-{ lib, stdenv, fetchurl, libpcap, bison, flex, cyrus_sasl, tcp_wrappers,
-  pkg-config, procps, which, wget, lsof, net-snmp, perl }:
+{ lib
+, stdenv
+, bison
+, cyrus_sasl
+, fetchurl
+, flex
+, libpcap
+, lsof
+, net-snmp
+, perl
+, pkg-config
+, procps
+, tcp_wrappers
+, wget
+, which
+}:
 
 stdenv.mkDerivation rec {
   pname = "argus";
-  version = "3.0.8.2";
+  version = "3.0.8.3";
 
   src = fetchurl {
-    url = "http://qosient.com/argus/src/${pname}-${version}.tar.gz";
+    url = "http://qosient.com/argus/src/${pname}-client-${version}.tar.gz";
     sha256 = "1zzf688dbbcb5z2r9v1p28rddns6znzx35nc05ygza6lp7aknkna";
   };
 
-  nativeBuildInputs = [ pkg-config bison flex ];
-  buildInputs = [ libpcap cyrus_sasl tcp_wrappers ];
-  propagatedBuildInputs = [ procps which wget lsof net-snmp ];
+  nativeBuildInputs = [
+    bison
+    flex
+    pkg-config
+  ];
+  
+  buildInputs = [
+    cyrus_sasl
+    libpcap
+    tcp_wrappers
+  ];
+  
+  propagatedBuildInputs = [
+    lsof
+    net-snmp
+    procps
+    wget
+    which
+  ];
 
   patchPhase = ''
      substituteInPlace events/argus-extip.pl \
