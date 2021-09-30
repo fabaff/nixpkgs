@@ -9,7 +9,7 @@
 
 buildPythonPackage rec {
   pname = "pysyncthru";
-  version = "0.7.8";
+  version = "0.7.10";
 
   disabled = isPy27;
 
