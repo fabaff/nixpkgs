@@ -1,4 +1,7 @@
-{ lib, python3Packages, fetchFromGitHub }:
+{ lib
+, python3Packages
+, fetchFromGitHub
+}:
 
 python3Packages.buildPythonApplication rec {
   pname = "flexget";
@@ -18,7 +21,7 @@ python3Packages.buildPythonApplication rec {
     ln -sf requirements.in requirements.txt
 
     # remove dependency constraints
-    sed 's/==\([0-9]\.\?\)\+//' -i requirements.txt
+    sed 's/[>=]=.*//' -i requirements.txt
 
     # "zxcvbn-python" was renamed to "zxcvbn", and we don't have the former in
     # nixpkgs. See: https://github.com/NixOS/nixpkgs/issues/62110
