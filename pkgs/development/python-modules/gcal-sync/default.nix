@@ -3,6 +3,7 @@
 , pythonOlder
 , fetchFromGitHub
 , aiohttp
+, ical
 , pydantic
 , freezegun
 , pytest-aiohttp
@@ -12,7 +13,7 @@
 
 buildPythonPackage rec {
   pname = "gcal-sync";
-  version = "2.1.0";
+  version = "2.2.3";
 
   disabled = pythonOlder "3.9";
 
@@ -20,11 +21,12 @@ buildPythonPackage rec {
     owner = "allenporter";
     repo = "gcal_sync";
     rev = "refs/tags/${version}";
-    hash = "sha256-FKrZPiN4rSk5iFhGAXVuKhEeekOnPxdFslP4SMUrQIE=";
+    hash = "sha256-5PoKdJBrNhPfcDxmprc/1jX7weIs7HSxFzzvjKOjGbY=";
   };
 
   propagatedBuildInputs = [
     aiohttp
+    ical
     pydantic
   ];
 
