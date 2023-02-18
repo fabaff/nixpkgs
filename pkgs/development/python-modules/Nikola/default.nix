@@ -97,6 +97,8 @@ buildPythonPackage rec {
   disabledTests = [
     # AssertionError
     "test_compiling_markdown"
+    # AssertionError, https://github.com/getnikola/nikola/issues/3554
+    "test_write_content_does_not_detroy_text"
   ];
 
   pythonImportsCheck = [ "nikola" ];
