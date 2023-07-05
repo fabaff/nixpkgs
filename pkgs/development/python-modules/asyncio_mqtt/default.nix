@@ -3,16 +3,16 @@
 , buildPythonPackage
 , fetchFromGitHub
 , paho-mqtt
+, poetry-core
+, poetry-dynamic-versioning
 , pytestCheckHook
 , pythonOlder
-, setuptools
-, setuptools-scm
 , typing-extensions
 }:
 
 buildPythonPackage rec {
   pname = "asyncio-mqtt";
-  version = "0.16.1";
+  version = "1.0.0";
   format = "pyproject";
 
   disabled = pythonOlder "3.7";
@@ -21,14 +21,12 @@ buildPythonPackage rec {
     owner = "sbtinstruments";
     repo = pname;
     rev = "refs/tags/v${version}";
-    hash = "sha256-f3JqocjOEwNjo6Uv17ij6oEdrjb6Z2wTzdhdVhx46iM=";
+    hash = "sha256-ct4KIGxiC5m0yrid0tOa/snO9oErxbqhLLH9kD69aEQ=";
   };
 
-  SETUPTOOLS_SCM_PRETEND_VERSION = version;
-
   nativeBuildInputs = [
-    setuptools
-    setuptools-scm
+    poetry-core
+    poetry-dynamic-versioning
   ];
 
   propagatedBuildInputs = [
@@ -43,20 +41,28 @@ buildPythonPackage rec {
   ];
 
   pythonImportsCheck = [
-    "asyncio_mqtt"
+    "aiomqtt"
   ];
 
   disabledTests = [
     # Tests require network access
+    "test_client_connect_disconnect"
+    "test_client_connecting_disconnected_done"
+    "test_client_disconnected_done"
+    "test_client_disconnected_exception"
     "test_client_filtered_messages"
     "test_client_logger"
     "test_client_max_concurrent_outgoing_calls"
     "test_client_no_pending_calls_warnings_with_max_concurrent_outgoing_calls"
+    "test_client_not_reentrant"
     "test_client_pending_calls_threshold"
+    "test_client_reusable_message"
+    "test_client_reusable"
     "test_client_tls_context"
     "test_client_tls_params"
     "test_client_unfiltered_messages"
     "test_client_unsubscribe"
+    "test_client_use_connect_disconnect_multiple_message"
     "test_client_username_password "
     "test_client_websockets"
     "test_client_will"
