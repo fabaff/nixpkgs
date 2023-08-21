@@ -7,6 +7,7 @@
 buildPythonPackage rec {
   pname = "cobs";
   version = "1.2.0";
+
   disabled = pythonOlder "3.6";
 
   src = fetchPypi {
