@@ -15,6 +15,15 @@ buildPythonPackage rec {
     hash = "sha256-2TsQtTcNyIaJYK77cK2x9zpOYQexaRgwekru79PtuPY=";
   };
 
+  checkPhase = ''
+    runHook preCheck
+
+    python -m cobs.cobs.test
+    python -m cobs.cobsr.test
+
+    runHook postCheck
+  '';
+
   meta = with lib; {
     description = "Python functions for encoding and decoding COBS";
     longDescription = ''
