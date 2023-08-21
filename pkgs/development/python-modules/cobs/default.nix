@@ -24,6 +24,12 @@ buildPythonPackage rec {
     runHook postCheck
   '';
 
+  pythonImportsCheck = [
+    "cobs"
+    "cobs.cobs"
+    "cobs.cobsr"
+  ];
+
   meta = with lib; {
     description = "Python functions for encoding and decoding COBS";
     longDescription = ''
