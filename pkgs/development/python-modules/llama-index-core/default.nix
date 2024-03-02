@@ -30,7 +30,7 @@
 
 buildPythonPackage rec {
   pname = "llama-index-core";
-  version = "0.10.12";
+  version = "0.10.15";
   pyproject = true;
 
   disabled = pythonOlder "3.8";
@@ -39,7 +39,7 @@ buildPythonPackage rec {
     owner = "run-llama";
     repo = "llama_index";
     rev = "refs/tags/v${version}";
-    hash = "sha256-Xn4Gqr5zjZGAEHg5duqkS9GLWWlC83puDHNktNYzvDw=";
+    hash = "sha256-vYTVU3iSsZDWXnWXVrQ9+5lDhhAqJxV+B0so07i9peg=";
   };
 
   sourceRoot = "${src.name}/${pname}";
