@@ -4846,6 +4846,8 @@ self: super: with self; {
 
   google-cloud-vision = callPackage ../development/python-modules/google-cloud-vision { };
 
+  google-cloud-vm-migration = callPackage ../development/python-modules/google-cloud-vm-migration { };
+
   google-cloud-vpc-access = callPackage ../development/python-modules/google-cloud-vpc-access { };
 
   google-cloud-webrisk = callPackage ../development/python-modules/google-cloud-webrisk { };
