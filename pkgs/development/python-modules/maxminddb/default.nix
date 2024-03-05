@@ -5,12 +5,14 @@
 , libmaxminddb
 , pytestCheckHook
 , pythonOlder
+, setuptools
+, setuptools-scm
 }:
 
 buildPythonPackage rec {
   pname = "maxminddb";
   version = "2.5.2";
-  format = "setuptools";
+  pyproject = true;
 
   disabled = pythonOlder "3.7";
 
@@ -18,6 +20,11 @@ buildPythonPackage rec {
     inherit pname version;
     hash = "sha256-s8M+T8eCHubJ9Ag3EW4Wq2F1hj1KZO7gJMW+xoZpCoc=";
   };
+
+  nativeBuildInputs = [
+    setuptools
+    setuptools-scm
+  ];
 
   buildInputs = [
     libmaxminddb
