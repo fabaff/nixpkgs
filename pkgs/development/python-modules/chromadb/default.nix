@@ -49,7 +49,7 @@
 
 buildPythonPackage rec {
   pname = "chromadb";
-  version = "0.4.23";
+  version = "0.4.24";
   pyproject = true;
 
   disabled = pythonOlder "3.9";
@@ -58,13 +58,13 @@ buildPythonPackage rec {
     owner = "chroma-core";
     repo = "chroma";
     rev = "refs/tags/${version}";
-    hash = "sha256-5gI+FE2jx4G/qahATLcYsONfPZZkk1RFFYK5nrpE0Ug=";
+    hash = "sha256-mmBTUCwKMFvaQofdOXBo3RxaTDwMSldA3n+Vt52W2TU=";
   };
 
   cargoDeps = rustPlatform.fetchCargoTarball {
     inherit src;
     name = "${pname}-${version}";
-    hash = "sha256-glItbT8gg5SAySnfx3A9TaPyFmd1R46JpAB1JnjBE5M=";
+    hash = "sha256-seNkQFowXupIC45gfTpuKxij8/3ha9AwWB0cysgP2sE=";
   };
 
   pythonRelaxDeps = [
@@ -133,8 +133,6 @@ buildPythonPackage rec {
   env = {
     ZSTD_SYS_USE_PKG_CONFIG = true;
   };
-
-  pytestFlagsArray = [ "-x" ];
 
   preCheck = ''
     export HOME=$(mktemp -d)
