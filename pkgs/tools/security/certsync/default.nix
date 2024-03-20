@@ -1,18 +1,18 @@
 { lib
-, python3
 , fetchFromGitHub
+, python3
 }:
 
 python3.pkgs.buildPythonApplication rec {
   pname = "certsync";
-  version = "1.5-unstable-2024-03-08";
+  version = "0.1.6";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "zblurx";
     repo = "certsync";
-    rev = "712e34c54a63537efd630561aa55dc9d35962c3f";
-    hash = "sha256-YkxEExeu3sBJ93WJGtU5oe3rDS0Ki88vAeGpE23xRwo=";
+    rev = "refs/tags/${version}";
+    hash = "sha256-UNeO9Ldf6h6ykziKVCdAoBIzL5QedbRLFEwyeWDCtUU";
   };
 
   nativeBuildInputs = with python3.pkgs; [
