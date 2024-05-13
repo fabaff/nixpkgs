@@ -10661,6 +10661,8 @@ self: super: with self; {
 
   pyautogui = callPackage ../development/python-modules/pyautogui { };
 
+  pyavaccess = callPackage ../development/python-modules/pyavaccess { };
+
   pyavm = callPackage ../development/python-modules/pyavm { };
 
   pyaxmlparser = callPackage ../development/python-modules/pyaxmlparser { };
