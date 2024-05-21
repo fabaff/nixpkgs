@@ -14,7 +14,7 @@ buildPythonPackage rec {
     hash = "sha256-J1+3IEiwID0/vvJoKY6nigkTzRFKdIctk/hjjMxbfGM=";
   };
 
-  nativeBuildInputs = [
+  build-system = [
     setuptools
   ];
 
