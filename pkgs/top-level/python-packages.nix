@@ -1341,6 +1341,8 @@ self: super: with self; {
     enablePython = true;
   });
 
+  baddns = callPackage ../development/python-modules/baddns { };
+
   bambi = callPackage ../development/python-modules/bambi { };
 
   pad4pi = callPackage ../development/python-modules/pad4pi { };
