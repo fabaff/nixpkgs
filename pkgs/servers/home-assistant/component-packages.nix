@@ -2982,7 +2982,8 @@
       pynx584
     ];
     "nyt_games" = ps: with ps; [
-    ]; # missing inputs: nyt_games
+      nyt-games
+    ];
     "nzbget" = ps: with ps; [
     ]; # missing inputs: pynzbgetapi
     "oasa_telematics" = ps: with ps; [
@@ -5514,6 +5515,7 @@
     "nut"
     "nws"
     "nx584"
+    "nyt_games"
     "obihai"
     "octoprint"
     "ollama"
