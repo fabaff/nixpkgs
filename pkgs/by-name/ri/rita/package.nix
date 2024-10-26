@@ -1,20 +1,21 @@
-{ lib
-, buildGoModule
-, fetchFromGitHub
+{
+  lib,
+  buildGoModule,
+  fetchFromGitHub,
 }:
 
 buildGoModule rec {
   pname = "rita";
-  version = "4.8.1";
+  version = "5.0.8";
 
   src = fetchFromGitHub {
     owner = "activecm";
     repo = "rita";
     rev = "refs/tags/v${version}";
-    hash = "sha256-By0JvQ4LTm+NEnRMadE1x2PiiYqnJQCsF3Fy+gHulXs=";
+    hash = "sha256-zbmXOeYBEanHr58HF67K0WzFAzt0+pHOxyOGdbSeqpg=";
   };
 
-  vendorHash = "sha256-KyC7VPgWlgKD6KWWRo3hFQHl2HjTub+VSMtJCpYE6Zk=";
+  vendorHash = "sha256-jKV1a11ReZiJUynSSKtDl74m/PSqjDPcKe7ADNG7DwU=";
 
   ldflags = [
     "-s"
@@ -22,6 +23,9 @@ buildGoModule rec {
     "-X=github.com/activecm/rita/config.Version=${version}"
     "-X=github.com/activecm/rita/config.ExactVersion=${version}"
   ];
+
+  # Tests require a Docker setup
+  doCheck = false;
 
   meta = with lib; {
     description = "Framework for detecting command and control communication through network traffic analysis";
