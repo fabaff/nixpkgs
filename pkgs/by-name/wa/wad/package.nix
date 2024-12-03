@@ -6,31 +6,28 @@
 python3.pkgs.buildPythonApplication rec {
   pname = "wad";
   version = "0.4.6";
-  format = "setuptools";
+  pyproject = true;
 
   src = fetchFromGitHub {
     owner = "CERN-CERT";
     repo = "WAD";
-    rev = "v${version}";
+    rev = "refs/tags/v${version}";
     hash = "sha256-/mlmOzFkyKpmK/uk4813Wk0cf/+ynX3Qxafnd1mGR5k=";
   };
 
-  propagatedBuildInputs = with python3.pkgs; [
-    six
-  ];
+  build-system = with python3.pkgs; [ setuptools ];
+
+  propagatedBuildInputs = with python3.pkgs; [ six ];
 
   nativeCheckInputs = with python3.pkgs; [
     mock
     pytestCheckHook
   ];
 
-  pythonImportsCheck = [
-    "wad"
-  ];
+  pythonImportsCheck = [ "wad" ];
 
   meta = with lib; {
     description = "Tool for detecting technologies used by web applications";
-    mainProgram = "wad";
     longDescription = ''
       WAD lets you analyze given URL(s) and detect technologies used by web
       application behind that URL, from the OS and web server level, to the
@@ -41,5 +38,6 @@ python3.pkgs.buildPythonApplication rec {
     # wad is GPLv3+, wappalyzer source is MIT
     license = with licenses; [ gpl3Plus mit ];
     maintainers = with maintainers; [ fab ];
+    mainProgram = "wad";
   };
 }
