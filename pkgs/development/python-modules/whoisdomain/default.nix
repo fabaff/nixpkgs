@@ -20,7 +20,7 @@ buildPythonPackage rec {
     hash = "sha256-nRj/WkYjMZuQoYF+QFIHABlek4DxvvEnOTeFYLHYvZc=";
   };
 
-  nativeBuildInputs = [ hatchling ];
+  build-system = [ hatchling ];
 
   pythonImportsCheck = [ "whoisdomain" ];
 
@@ -29,10 +29,10 @@ buildPythonPackage rec {
 
   meta = with lib; {
     description = "Module to perform whois lookups";
-    mainProgram = "whoisdomain";
     homepage = "https://github.com/mboot-github/WhoisDomain";
     changelog = "https://github.com/mboot-github/WhoisDomain/releases/tag/${version}";
     license = licenses.mit;
     maintainers = with maintainers; [ fab ];
+    mainProgram = "whoisdomain";
   };
 }
