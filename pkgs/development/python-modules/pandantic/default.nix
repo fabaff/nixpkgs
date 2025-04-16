@@ -13,7 +13,7 @@
 
 buildPythonPackage rec {
   pname = "pandantic";
-  version = "1.0.0";
+  version = "1.0.1";
   pyproject = true;
 
   disabled = pythonOlder "3.10";
@@ -22,7 +22,7 @@ buildPythonPackage rec {
     owner = "wesselhuising";
     repo = "pandantic";
     tag = version;
-    hash = "sha256-c108zoKBnjlELCDia8XSsdG8Exa/k7HKyRvcTocndss=";
+    hash = "sha256-lqd4aQiBMbATFMdftKQeTlqQ3MGrxm2shb7qil+84iA=";
   };
 
   build-system = [ poetry-core ];
