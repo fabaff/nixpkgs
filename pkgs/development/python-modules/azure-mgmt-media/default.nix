@@ -6,23 +6,23 @@
   msrestazure,
   azure-common,
   azure-mgmt-core,
-  pythonOlder,
+  setuptools,
 }:
 
 buildPythonPackage rec {
   pname = "azure-mgmt-media";
-  version = "10.2.0";
-  format = "setuptools";
-
-  disabled = pythonOlder "3.6";
+  version = "10.2.1";
+  pyproject = true;
 
   src = fetchPypi {
-    inherit pname version;
-    extension = "zip";
-    hash = "sha256-TVq/6dHttDGIUFzn8KTVeDTwcBMmphz3zrsGK7ux4aU=";
+    pname = "azure_mgmt_media";
+    inherit version;
+    hash = "sha256-1lTc6SqFw66yUafg0MjY+jd9Jq5NOINu9puFybSGkRM=";
   };
 
-  propagatedBuildInputs = [
+  build-system = [ setuptools ];
+
+  dependencies = [
     msrest
     msrestazure
     azure-common
@@ -36,7 +36,8 @@ buildPythonPackage rec {
 
   meta = with lib; {
     description = "This is the Microsoft Azure Media Services Client Library";
-    homepage = "https://github.com/Azure/azure-sdk-for-python";
+    homepage = "https://github.com/Azure/azure-sdk-for-python/tree/main/sdk/media/azure-mgmt-media";
+    changelog = "https://github.com/Azure/azure-sdk-for-python/blob/azure-mgmt-media_${version}/sdk/media/azure-mgmt-media/CHANGELOG.md";
     license = licenses.mit;
     maintainers = with maintainers; [ maxwilson ];
   };
