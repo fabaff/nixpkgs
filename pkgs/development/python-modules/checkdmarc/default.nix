@@ -6,12 +6,12 @@
   expiringdict,
   fetchFromGitHub,
   hatchling,
+  importlib-resources,
   pem,
   publicsuffixlist,
   pyleri,
   pyopenssl,
   pytestCheckHook,
-  pythonOlder,
   requests,
   timeout-decorator,
   xmltodict,
@@ -19,16 +19,14 @@
 
 buildPythonPackage rec {
   pname = "checkdmarc";
-  version = "5.8.1";
-  format = "pyproject";
-
-  disabled = pythonOlder "3.7";
+  version = "5.8.6";
+  pyproject = true;
 
   src = fetchFromGitHub {
     owner = "domainaware";
     repo = "checkdmarc";
     tag = version;
-    hash = "sha256-mdEfVfqK277A8QUc8rpLxS2pfdyg4Z5XqWpWkh9mFLk=";
+    hash = "sha256-MlHRBedBbcFbVga5q0havdD6M/YOlFW8SX0k1tRngmc=";
   };
 
   pythonRelaxDeps = [ "xmltodict" ];
@@ -39,6 +37,7 @@ buildPythonPackage rec {
     cryptography
     dnspython
     expiringdict
+    importlib-resources
     pem
     publicsuffixlist
     pyleri
@@ -67,10 +66,10 @@ buildPythonPackage rec {
 
   meta = with lib; {
     description = "Parser for SPF and DMARC DNS records";
-    mainProgram = "checkdmarc";
     homepage = "https://github.com/domainaware/checkdmarc";
     changelog = "https://github.com/domainaware/checkdmarc/blob/${src.tag}/CHANGELOG.md";
     license = licenses.asl20;
     maintainers = with maintainers; [ fab ];
+    mainProgram = "checkdmarc";
   };
 }
