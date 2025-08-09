@@ -60,9 +60,10 @@ buildPythonPackage rec {
     "test_json_callback_format"
     "test_json_format"
     "test_parsed_json_format"
+    "test_upload"
     "test_walk"
-    "test_xmlnode_format"
     "test_xmlnode_format_error"
+    "test_xmlnode_format"
   ];
 
   pythonImportsCheck = [ "flickrapi" ];
