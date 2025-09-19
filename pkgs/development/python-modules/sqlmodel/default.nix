@@ -6,37 +6,24 @@
   dirty-equals,
   fastapi,
   fetchFromGitHub,
-  fetchpatch,
   pdm-backend,
   pydantic,
   pytest-asyncio,
   pytestCheckHook,
-  pythonOlder,
   sqlalchemy,
 }:
 
 buildPythonPackage rec {
   pname = "sqlmodel";
-  version = "0.0.24";
+  version = "0.0.25";
   pyproject = true;
-
-  disabled = pythonOlder "3.7";
 
   src = fetchFromGitHub {
     owner = "tiangolo";
     repo = "sqlmodel";
     tag = version;
-    hash = "sha256-RKihR3UJLuBYSHK79pcxIx/hT0nCkqQO8zBrq4AWaYM=";
+    hash = "sha256-8eWNLZaMlo2QeiNe1tsTqQOjVHi/N05G8mjkgXuL6YY=";
   };
-
-  patches = [
-    (fetchpatch {
-      # https://github.com/tiangolo/sqlmodel/pull/969
-      name = "passthru-environ-variables.patch";
-      url = "https://github.com/tiangolo/sqlmodel/pull/969/commits/42d33049e9e4182b78914ad41d1e3d30125126ba.patch";
-      hash = "sha256-dPuFCFUnmTpduxn45tE8XUP0Jlwjwmwe+zFaKSganOg=";
-    })
-  ];
 
   build-system = [ pdm-backend ];
 
@@ -70,7 +57,7 @@ buildPythonPackage rec {
   meta = with lib; {
     description = "Module to work with SQL databases";
     homepage = "https://github.com/tiangolo/sqlmodel";
-    changelog = "https://github.com/tiangolo/sqlmodel/releases/tag/${version}";
+    changelog = "https://github.com/tiangolo/sqlmodel/releases/tag/${src.tag}";
     license = licenses.mit;
     maintainers = with maintainers; [ fab ];
   };
