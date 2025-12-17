@@ -8,26 +8,23 @@
   fetchFromGitHub,
   pypubsub,
   pyserial,
-  pyserial-asyncio,
+  pyserial-asyncio-fast,
   pytestCheckHook,
   pythonAtLeast,
-  pythonOlder,
   setuptools,
   voluptuous,
 }:
 
 buildPythonPackage rec {
   pname = "pyinsteon";
-  version = "1.6.3";
+  version = "1.6.4";
   pyproject = true;
-
-  disabled = pythonOlder "3.8";
 
   src = fetchFromGitHub {
     owner = "pyinsteon";
     repo = "pyinsteon";
     tag = version;
-    hash = "sha256-SyhPM3NS7iJX8jwTJ4YWZ72eYLn9JT6eESekPf5eCKI=";
+    hash = "sha256-iC0qeiTHtrdzQtJ3R01nJDCfdBKBg0jw1v49ZII24/4=";
   };
 
   build-system = [ setuptools ];
@@ -38,7 +35,7 @@ buildPythonPackage rec {
     async-timeout
     pypubsub
     pyserial
-    pyserial-asyncio
+    pyserial-asyncio-fast
     voluptuous
   ];
 
@@ -68,7 +65,7 @@ buildPythonPackage rec {
     '';
     homepage = "https://github.com/pyinsteon/pyinsteon";
     changelog = "https://github.com/pyinsteon/pyinsteon/releases/tag/${version}";
-    license = with lib.licenses; [ mit ];
+    license = lib.licenses.mit;
     maintainers = with lib.maintainers; [ fab ];
     mainProgram = "insteon_tools";
   };
