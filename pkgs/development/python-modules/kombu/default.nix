@@ -31,14 +31,14 @@
 
 buildPythonPackage rec {
   pname = "kombu";
-  version = "5.6.1";
+  version = "5.6.2";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "celery";
     repo = "kombu";
     tag = "v${version}";
-    hash = "sha256-kywPcWhc+iMh4OOH8gobA6NFismRvihgNMcxxw+2p/4=";
+    hash = "sha256-J0cEQsMHKethrfDVDDvIjc/iZpoCYLH9INHtgKmH9Pk=";
   };
 
   build-system = [ setuptools ];
@@ -98,7 +98,7 @@ buildPythonPackage rec {
   meta = {
     description = "Messaging library for Python";
     homepage = "https://github.com/celery/kombu";
-    changelog = "https://github.com/celery/kombu/blob/v${version}/Changelog.rst";
+    changelog = "https://github.com/celery/kombu/blob/${src.tag}/Changelog.rst";
     license = lib.licenses.bsd3;
     maintainers = with lib.maintainers; [ fab ];
   };
