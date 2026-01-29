@@ -29,6 +29,8 @@ self: super: with self; {
 
   # by_regex ensures inherit statements are sorted after the (first) attribute name that is inherited.
   # keep-sorted start block=yes newline_separated=yes by_regex=["(?:inherit\\s+\\([^)]+\\)\\n?\\s*)?(.+)"]
+  a2a-sdk = callPackage ../development/python-modules/a2a-sdk { };
+
   a2wsgi = callPackage ../development/python-modules/a2wsgi { };
 
   aafigure = callPackage ../development/python-modules/aafigure { };
