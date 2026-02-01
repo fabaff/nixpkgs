@@ -22,7 +22,7 @@
   tqdm,
 }:
 
-buildPythonPackage rec {
+buildPythonPackage (finalAttrs: {
   pname = "numpyro";
   version = "0.20.0";
   pyproject = true;
@@ -30,7 +30,7 @@ buildPythonPackage rec {
   src = fetchFromGitHub {
     owner = "pyro-ppl";
     repo = "numpyro";
-    tag = version;
+    tag = finalAttrs.version;
     hash = "sha256-lMga+mPQEh6RCeqXKa2KELR6RcksKJ/K32h7X7a1IcQ=";
   };
 
@@ -113,8 +113,8 @@ buildPythonPackage rec {
   meta = {
     description = "Library for probabilistic programming with NumPy";
     homepage = "https://num.pyro.ai/";
-    changelog = "https://github.com/pyro-ppl/numpyro/releases/tag/${version}";
+    changelog = "https://github.com/pyro-ppl/numpyro/releases/tag/${finalAttrs.src.tag}";
     license = lib.licenses.asl20;
     maintainers = with lib.maintainers; [ fab ];
   };
-}
+})
