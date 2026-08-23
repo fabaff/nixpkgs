@@ -9,10 +9,12 @@ buildGoModule (finalAttrs: {
   pname = "shuffledns";
   version = "1.2.1";
 
+  __structuredAttrs = true;
+
   src = fetchFromGitHub {
     owner = "projectdiscovery";
     repo = "shuffledns";
-    rev = "v${finalAttrs.version}";
+    tag = "v${finalAttrs.version}";
     hash = "sha256-hdlFmUfAKvBaFBIraOyLTuPbwykwIpqX5VzIPRP1lz8=";
   };
 
@@ -22,20 +24,18 @@ buildGoModule (finalAttrs: {
 
   nativeInstallCheckInputs = [ versionCheckHook ];
 
-  ldflags = [
-    "-s"
-    "-w"
-  ];
+  ldflags = [ "-s" ];
 
   versionCheckProgramArg = "-version";
 
   meta = {
     description = "massDNS wrapper to bruteforce and resolve the subdomains with wildcard handling support";
     longDescription = ''
-      MassDNS wrapper written in go to enumerate valid subdomains using active bruteforce as well as resolve subdomains with wildcard filtering and easy input-output support.
+      MassDNS wrapper written in go to enumerate valid subdomains using active bruteforce as well as resolve
+      subdomains with wildcard filtering and easy input-output support.
     '';
     homepage = "https://github.com/projectdiscovery/shuffledns";
-    changelog = "https://github.com/projectdiscovery/shuffledns/releases/tag/v${finalAttrs.version}";
+    changelog = "https://github.com/projectdiscovery/shuffledns/releases/tag/${finalAttrs.src.tag}";
     license = lib.licenses.gpl3Plus;
     maintainers = [ lib.maintainers.michaelBelsanti ];
     mainProgram = "shuffledns";
