@@ -3,6 +3,7 @@
   buildGoModule,
   fetchFromGitHub,
   versionCheckHook,
+  writableTmpDirAsHomeHook,
 }:
 
 buildGoModule (finalAttrs: {
@@ -22,11 +23,16 @@ buildGoModule (finalAttrs: {
 
   subPackages = [ "cmd/shuffledns" ];
 
-  nativeInstallCheckInputs = [ versionCheckHook ];
+  nativeInstallCheckInputs = [
+    versionCheckHook
+    writableTmpDirAsHomeHook
+  ];
 
   ldflags = [ "-s" ];
 
-  versionCheckProgramArg = "-version";
+  versionCheckKeepEnvironment = [ "HOME" ];
+
+  doInstallCheck = true;
 
   meta = {
     description = "massDNS wrapper to bruteforce and resolve the subdomains with wildcard handling support";
