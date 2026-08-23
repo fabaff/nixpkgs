@@ -2,6 +2,7 @@
   lib,
   buildGoModule,
   fetchFromGitHub,
+  nix-update-script,
   versionCheckHook,
   writableTmpDirAsHomeHook,
 }:
@@ -33,6 +34,8 @@ buildGoModule (finalAttrs: {
   versionCheckKeepEnvironment = [ "HOME" ];
 
   doInstallCheck = true;
+
+  passthru.updateScript = nix-update-script { };
 
   meta = {
     description = "massDNS wrapper to bruteforce and resolve the subdomains with wildcard handling support";
