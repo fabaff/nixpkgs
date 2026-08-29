@@ -15249,6 +15249,8 @@ self: super: with self; {
 
   pylibdmtx = callPackage ../development/python-modules/pylibdmtx { };
 
+  pylibemu = callPackage ../development/python-modules/pylibemu { };
+
   pylibftdi = callPackage ../development/python-modules/pylibftdi { inherit (pkgs) libusb1; };
 
   pylibjpeg = callPackage ../development/python-modules/pylibjpeg { };
