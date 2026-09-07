@@ -10,13 +10,13 @@
 
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "parsync";
-  version = "0.2.0";
+  version = "0.3.0";
 
   src = fetchFromGitHub {
     owner = "AlpinDale";
     repo = "parsync";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-XeHHfSrutKTL1JFxJrqo9K0lD2ZYuIxcxnusH6Q373M=";
+    hash = "sha256-fHvjeTqTg2RDM6r+/OaAb8K0targAcl+0m+Uz14WbfA=";
   };
 
   cargoHash = "sha256-SHieyv7Kc9Qtx3C11wxjJTI28h2RDh+YY1Ks++Z1rQ8=";
