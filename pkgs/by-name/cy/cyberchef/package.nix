@@ -21,8 +21,8 @@ let
       categories = [ "Development" ];
     }
   );
-  version = "11.2.0";
-  commit = "d358d82cbcb269d764a2deb598a37043bd054f45";
+  version = "11.4.0";
+  commit = "49d1a5634a67a3b806c6db0fdca7dcecb41a776c";
 in
 stdenv.mkDerivation {
   pname = "cyberchef";
@@ -30,7 +30,7 @@ stdenv.mkDerivation {
 
   src = fetchzip {
     url = "https://github.com/gchq/CyberChef/releases/download/v${version}/CyberChef_${commit}.zip";
-    hash = "sha256-3DXIrxCefiEYqZOPs8pO5jWdHFj7cPGgrwZcwE4ESPg=";
+    hash = "sha256-E0EJpWRA62+ZOZl4UQaHWj1WxElelIW5qrNUV5ULJYQ=";
     stripRoot = false;
   };
 
