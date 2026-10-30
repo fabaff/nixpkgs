@@ -7,18 +7,19 @@
   pynacl,
   pytest-asyncio,
   pytestCheckHook,
+  segno,
 }:
 
 buildPythonPackage (finalAttrs: {
   pname = "aiothreema";
-  version = "0.2.0";
+  version = "0.3.0";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "LukasQ";
     repo = "aiothreema";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-JMnw6zQlMXbtCHrCo2CRBZPS7iSCYsguAvWj5dNDrrw=";
+    hash = "sha256-VHZhb3mJc7DA7utcJ+ZDM6cevIuev+30NiZvROdwAlE=";
   };
 
   build-system = [ hatchling ];
@@ -26,6 +27,7 @@ buildPythonPackage (finalAttrs: {
   dependencies = [
     aiohttp
     pynacl
+    segno
   ];
 
   nativeCheckInputs = [
