@@ -3,6 +3,7 @@
   aiohttp,
   aiohttp-retry,
   buildPythonPackage,
+  cryptography,
   fetchFromGitHub,
   freezegun,
   ical,
@@ -23,21 +24,19 @@
 
 buildPythonPackage (finalAttrs: {
   pname = "pyrainbird";
-  version = "6.8.0";
+  version = "6.10.0";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "allenporter";
     repo = "pyrainbird";
     tag = finalAttrs.version;
-    hash = "sha256-yJ1Sg3gTu/0ACBLd0sAYVfbMR8vNv1a5QzWiSGFoS6c=";
+    hash = "sha256-2hXe/26IUEAqIyoSc9NUFvaorHyVoqflWX6IUQgHmQM=";
   };
 
   build-system = [ setuptools ];
 
-  pythonRelaxDeps = [
-    "aiohttp"
-  ];
+  pythonRelaxDeps = [ "aiohttp" ];
 
   dependencies = [
     aiohttp
@@ -52,6 +51,7 @@ buildPythonPackage (finalAttrs: {
   __darwinAllowLocalNetworking = true;
 
   nativeCheckInputs = [
+    cryptography
     freezegun
     parameterized
     pytest-aiohttp
