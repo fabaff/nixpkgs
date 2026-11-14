@@ -15,13 +15,13 @@
 }:
 stdenv.mkDerivation (finalAttrs: {
   pname = "cdxgen";
-  version = "13.7.0";
+  version = "13.8.0";
 
   src = fetchFromGitHub {
     owner = "cdxgen";
     repo = "cdxgen";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-Eb16kAfv0V3qK53DzTZywhIsGm0WaaZq55Xbr0UnZ08=";
+    hash = "sha256-aRUy2T86zdB0JUkyQdAsqSrAHU9GfQ3SMHNVeTU5efA=";
   };
 
   nativeBuildInputs = [
@@ -36,7 +36,7 @@ stdenv.mkDerivation (finalAttrs: {
     inherit (finalAttrs) pname version src;
     pnpm = pnpm_12;
     fetcherVersion = 5;
-    hash = "sha256-25R8YQ115BvNiC8nmDpfDyiExeTXkfIDLmnw+yoXPuQ=";
+    hash = "sha256-oTaCoyDA1UaCibe7Eft/YjPW27OfGk8TsEYgwvTKpxM=";
   };
 
   installPhase = ''
