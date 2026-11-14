@@ -6,19 +6,27 @@
 
 python3.pkgs.buildPythonApplication (finalAttrs: {
   pname = "amoco";
-  version = "2.9.8";
+  version = "2.9.11";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "bdcht";
     repo = "amoco";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-3+1ssFyU7SKFJgDYBQY0kVjmTHOD71D2AjnH+4bfLXo=";
+    hash = "sha256-gqnlhJ7aDlRxMOcdWjMPIRvZ56Fs8IKIehnmIiVjJZc=";
   };
 
-  build-system = with python3.pkgs; [
-    setuptools
+  postPatch = ''
+    substituteInPlace setup.py \
+      --replace '"pytest-runner",' ""
+  '';
+
+  pythonRelaxDeps = [
+    "grandalf"
+    "crysp"
   ];
+
+  build-system = with python3.pkgs; [ setuptools ];
 
   dependencies = with python3.pkgs; [
     blessed
@@ -26,6 +34,7 @@ python3.pkgs.buildPythonApplication (finalAttrs: {
     crysp
     grandalf
     pyparsing
+    rich
     tqdm
     traitlets
   ];
@@ -41,22 +50,9 @@ python3.pkgs.buildPythonApplication (finalAttrs: {
     ];
   };
 
-  nativeCheckInputs = with python3.pkgs; [
-    pytestCheckHook
-  ];
+  nativeCheckInputs = with python3.pkgs; [ pytestCheckHook ];
 
-  postPatch = ''
-    substituteInPlace setup.py \
-      --replace "'pytest-runner'," ""
-  '';
-
-  pythonRelaxDeps = [
-    "grandalf"
-    "crysp"
-  ];
-
-  pythonImportsCheck = [
-    "amoco"
+  pythonImportsCheck = [  "amoco"
   ];
 
   disabledTests = [
@@ -66,9 +62,10 @@ python3.pkgs.buildPythonApplication (finalAttrs: {
 
   meta = {
     description = "Tool for analysing binaries";
-    mainProgram = "amoco";
     homepage = "https://github.com/bdcht/amoco";
+    changelog = "https://github.com/bdcht/amoco/releases/tag/v${finalAttrs.src.tag}";
     license = lib.licenses.gpl2Only;
     maintainers = with lib.maintainers; [ fab ];
+    mainProgram = "amoco";
   };
 })
